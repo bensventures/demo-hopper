@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title>Demo Generator</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<link rel="shortcut icon" href="http://www.softonic.com/favicon.ico" type="image/x-icon">
+	<script data-main="js/main" src="js/libs/require.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<script type="text/template" id="projectsListTpl">
+		<% _( projects ).each(function(project) { %>
+			<li id="<%= project.id %>"><%= project.name %></li>
+		<% }) %>
+	</script>
+
+	<script type="text/template" id="sprintsListTpl">
+		<% _( sprints ).each(function(sprint) { %>
+			<li id="<%= sprint.id %>"><%= sprint.name %></li>
+		<% }) %>
+	</script>
+
+	<script type="text/template" id="issueTpl">
+		<article id="issue_<%= id %>" class="issue hidden">
+			<h2 class="issue-title section col span_12_of_12">
+				<span class="fa issue-type <%= typeName.replace(' ', '').toLowerCase() %>" title="<%= typeName %>"></span>
+				<span class="title-text"><%= summary %></span>
+			</h2>
+			<section class="issue-details hidden"></section>
+		</article>
+	</script>
+
+	<script type="text/template" id="issueDetailsTpl">
+		<div class="description section col span_12_of_12"><%= description %><a href="https://jira.redtonic/browse/<%= issueKey %>" class="read-more"><span>Read more</span></a></div>
+		<section class="main-data section group">
+			<% if ( assignee ) { %>
+			<div class="assignee col span_4_of_12">
+				<img class="assignee-avatar" src="<%= assignee.avatarUrls['48x48'] %>" alt="<%= assignee.displayName %>" />
+				<span class="assignee-name title"><%= assignee.displayName %></span>
+			</div>
+			<% } %>
+			<% if ( subtasks.length ) { %>
+			<div class="subtasks col span_4_of_12">
+				<span class="fa fa-sitemap"></span><span class="counter"><%= subtasks.length %></span>
+				<span class="title">Subtasks</span>
+			</div>
+			<% } %>
+			<% if ( components.length ) { %>
+			<div class="components col span_4_of_12">
+				<span class="fa fa-cogs"></span>
+				<ul>
+				<% _.each( components, function ( component ){ %>
+					<li class="component title"><span class="fa fa-cog"></span><%= component.name %></li>
+				<% } ) %>
+				</ul>
+			</div>
+			<% } %>
+		</section>
+	</script>
+
+</head>
+
+<body>
+	<h1 id="pageTitle"></h1>
+
+	<section id="issueQuery">
+		<div id="projects" class="control">
+			<span class="dropdown"><span>&darr;</span></span>
+			<input type="text" value="Choose a project" id="selectedProject" size="40" disabled="disabled" />
+			<ul id="projects_list" class="list_dropdown"></ul>
+
+			<div id="arrow-left" class="arrows"><span class="fa fa-chevron-left"></span></div>
+       		<div id="arrow-right" class="arrows"><span class="fa fa-chevron-right"></span></div>
+		</div>
+
+		<div id="fixversions" class="control">
+			<span class="dropdown"><span>&darr;</span></span>
+			<input type="text" value="Fix Version" id="selectedFix" size="40" disabled="disabled" />
+			<ul id="fixversions_list" class="list_dropdown"></ul>
+		</div>
+	</section>
+
+	<section id="issuesDisplay">
+		<div class="inner section" id="issuesList"></div>
+	</section>
+</body>
+</html>
