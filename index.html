@@ -25,31 +25,37 @@
 
 	<script type="text/template" id="issueTpl">
 		<article id="issue_<%= id %>" class="issue hidden">
-			<h2 class="issue-title section col span_12_of_12">
-				<span class="fa issue-type <%= typeName.replace(' ', '').toLowerCase() %>" title="<%= typeName %>"></span>
-				<span class="title-text"><%= summary %></span>
-			</h2>
 			<section class="issue-details hidden"></section>
 		</article>
 	</script>
 
 	<script type="text/template" id="issueDetailsTpl">
-		<div class="description section col span_12_of_12"><%= description %><a href="https://jira.redtonic/browse/<%= issueKey %>" class="read-more"><span>Read more</span></a></div>
-		<section class="main-data section group">
+
+		<div class="column">
 			<% if ( assignee ) { %>
-			<div class="assignee col span_4_of_12">
+			<div class="data-tile assignee">
 				<img class="assignee-avatar" src="<%= assignee.avatarUrls['48x48'] %>" alt="<%= assignee.displayName %>" />
 				<span class="assignee-name title"><%= assignee.displayName %></span>
 			</div>
 			<% } %>
-			<% if ( subtasks.length ) { %>
-			<div class="subtasks col span_4_of_12">
-				<span class="fa fa-sitemap"></span><span class="counter"><%= subtasks.length %></span>
-				<span class="title">Subtasks</span>
+		</div>
+		<div class="issue-body column">
+			<h2 class="issue-title">
+				<span class="fa issue-type <%= issuetype.name.replace(' ', '').toLowerCase() %>" title="<%= issuetype.name %>"></span>
+				<span class="title-text"><%= summary %></span>
+			</h2>
+
+			<div class="description"><%= description %><a href="https://jira.redtonic/browse/<%= issueKey %>" class="read-more"><span>Read more</span></a></div>
+		</div>
+		<div class="column">
+			<% if ( customfield_10092 ) { %>
+			<div class="data-tile points">
+				<span class="fa fa-dot-circle-o"></span>
+				<br /><%= customfield_10092 %>
 			</div>
 			<% } %>
 			<% if ( components.length ) { %>
-			<div class="components col span_4_of_12">
+			<div class="data-tile components">
 				<span class="fa fa-cogs"></span>
 				<ul>
 				<% _.each( components, function ( component ){ %>
@@ -58,7 +64,14 @@
 				</ul>
 			</div>
 			<% } %>
-		</section>
+		</div>
+		<% if ( subtasks.length ) { %>
+		<div class="data-tile subtasks">
+			<span class="fa fa-sitemap"></span><span class="counter"><%= subtasks.length %></span>
+			<span class="title">Subtasks</span>
+		</div>
+		<% } %>
+
 	</script>
 
 </head>
@@ -71,9 +84,6 @@
 			<span class="dropdown"><span>&darr;</span></span>
 			<input type="text" value="Choose a project" id="selectedProject" size="40" disabled="disabled" />
 			<ul id="projects_list" class="list_dropdown"></ul>
-
-			<div id="arrow-left" class="arrows"><span class="fa fa-chevron-left"></span></div>
-       		<div id="arrow-right" class="arrows"><span class="fa fa-chevron-right"></span></div>
 		</div>
 
 		<div id="fixversions" class="control">
@@ -81,6 +91,9 @@
 			<input type="text" value="Fix Version" id="selectedFix" size="40" disabled="disabled" />
 			<ul id="fixversions_list" class="list_dropdown"></ul>
 		</div>
+
+		<div id="arrow-left" class="arrows"><span class="fa fa-chevron-left"></span></div>
+		<div id="arrow-right" class="arrows"><span class="fa fa-chevron-right"></span></div>
 	</section>
 
 	<section id="issuesDisplay">
