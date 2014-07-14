@@ -144,6 +144,12 @@ p {
 			align-items: flex-start;
 		}
 
+		.data-tile ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
 /* Data tiles */
 
 		/* Assignee */
@@ -249,15 +255,6 @@ p {
 
 			 .components .fa:before {
 				color: #136e5a;
-			}
-
-			.components ul {
-				padding: 0;
-			}
-
-			.component {
-				list-style: none;
-				margin: 0;
 			}
 
 			.component .fa:before {

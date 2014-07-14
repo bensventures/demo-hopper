@@ -34,13 +34,14 @@ define( [
 					issuesFragment.appendChild( view.render().el );
 				} );
 
+				this.$el.empty();
 				this.$el.append( issuesFragment );
 
 				this.baseUrl = 'project/' + App.currentProject + '/sprint/' + App.currentSprint + '/slide/';
 
 				// Load first slide
-				if( !this.currentIssueNumber )
-					this.nextIssue();
+				this.currentIssueNumber = 0;
+				this.nextIssue();
 			},
 
 			nextIssue : function ()
@@ -77,8 +78,8 @@ define( [
 
 			prefetchModelDetails : function ()
 			{
-				var nextModel = this.collection.at( this.currentIssueNumber + 1 ),
-					prevModel = this.collection.at( this.currentIssueNumber - 1 );
+				var nextModel = this.collection.at( this.currentIssueNumber ),
+					prevModel = this.collection.at( this.currentIssueNumber - 2 );
 
 				if ( nextModel )
 				{

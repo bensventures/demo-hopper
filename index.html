@@ -64,6 +64,16 @@
 				</ul>
 			</div>
 			<% } %>
+			<% if ( labels.length ) { %>
+			<div class="data-tile labels">
+				<span class="fa fa-tags"></span>
+				<ul>
+				<% _.each( labels, function ( label ){ %>
+					<li class="component title"><span class="fa fa-tag"></span><%= label %></li>
+				<% } ) %>
+				</ul>
+			</div>
+			<% } %>
 		</div>
 		<% if ( subtasks.length ) { %>
 		<div class="data-tile subtasks">
