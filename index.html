@@ -39,13 +39,21 @@
 			</div>
 			<% } %>
 		</div>
-		<div class="issue-body column">
-			<h2 class="issue-title">
-				<span class="fa issue-type <%= issuetype.name.replace(' ', '').toLowerCase() %>" title="<%= issuetype.name %>"></span>
-				<span class="title-text"><%= summary %></span>
-			</h2>
-
-			<div class="description"><%= description %><a href="https://jira.redtonic/browse/<%= issueKey %>" class="read-more"><span>Read more</span></a></div>
+		<div class="column column-main">
+			<div class="issue-body">
+				<h2 class="issue-title">
+					<span class="title-text"><%= summary %></span>
+				</h2>
+				<div class="issue-type-row"><span class="fa issue-type <%= issuetype.name.replace(' ', '').toLowerCase() %>" title="<%= issuetype.name %>"></span></div>
+				<div class="description"><%= description %><a href="https://jira.redtonic/browse/<%= issueKey %>" class="read-more"><span>Read more</span></a></div>
+			</div>
+			<% if ( labels.length ) { %>
+			<ul class="labels">
+			<% _.each( labels, function ( label ){ %>
+				<li class="label"><span class="fa fa-tag"></span><%= label %></li>
+			<% } ) %>
+			</ul>
+			<% } %>
 		</div>
 		<div class="column">
 			<% if ( customfield_10092 ) { %>
@@ -54,6 +62,7 @@
 				<br /><%= customfield_10092 %>
 			</div>
 			<% } %>
+
 			<% if ( components.length ) { %>
 			<div class="data-tile components">
 				<span class="fa fa-cogs"></span>
@@ -64,30 +73,33 @@
 				</ul>
 			</div>
 			<% } %>
-			<% if ( labels.length ) { %>
-			<div class="data-tile labels">
-				<span class="fa fa-tags"></span>
+
+			<% if ( links && links.length ) { %>
+			<div class="data-tile links">
 				<ul>
-				<% _.each( labels, function ( label ){ %>
-					<li class="component title"><span class="fa fa-tag"></span><%= label %></li>
+				<% _.each( links, function ( link ){ %>
+					<li class="link"><span class="fa fa-link"></span><a href="<%= link.replace( /\[demo\]/g, '' ) %>"><%= link.replace( /\[demo\]/g, '' ) %></a></li>
 				<% } ) %>
 				</ul>
 			</div>
 			<% } %>
 		</div>
-		<% if ( subtasks.length ) { %>
-		<div class="data-tile subtasks">
-			<span class="fa fa-sitemap"></span><span class="counter"><%= subtasks.length %></span>
-			<span class="title">Subtasks</span>
+
+		<div class="column">
+			<% if ( subtasks.length ) { %>
+			<div class="data-tile subtasks">
+				<span class="fa fa-sitemap"></span><span class="counter"><%= subtasks.length %></span>
+				<span class="title">Subtasks</span>
+			</div>
+			<% } %>
 		</div>
-		<% } %>
 
 	</script>
 
 </head>
 
 <body>
-	<h1 id="pageTitle"></h1>
+	<div class="background"></div>
 
 	<section id="issueQuery">
 		<div id="projects" class="control">
@@ -109,5 +121,6 @@
 	<section id="issuesDisplay">
 		<div class="inner section" id="issuesList"></div>
 	</section>
+	<div id="spinner" class="hidden"><span class="fa fa-spin fa-cog"></span></div>
 </body>
 </html>

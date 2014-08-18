@@ -31,9 +31,13 @@ define( [
 
 			toggleVisibility : function ()
 			{
-				var action = this.model.get( 'visible' ) ? 'remove' : 'add';
+				var self = this;
 
-				this.el.classList[action]( 'hidden' );
+				this.$el.toggleClass( 'hidden' );
+
+				setTimeout( function () {
+					self.$el.toggleClass( 'show' );
+				}, 100 );
 			},
 
 			renderDetails : function ()

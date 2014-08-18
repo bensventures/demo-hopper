@@ -17,7 +17,14 @@ define( [
 			{
 				this.collection = new Issues;
 				this.listenTo( this.collection, 'reset', this.render );
+				this.listenTo( this.collection, 'request', this.loading );
 				this.buildArrows();
+			},
+
+			loading: function ()
+			{
+				this.$el.empty();
+				$( '#spinner' ).removeClass( 'hidden' );
 			},
 
 			/**
@@ -34,8 +41,8 @@ define( [
 					issuesFragment.appendChild( view.render().el );
 				} );
 
-				this.$el.empty();
 				this.$el.append( issuesFragment );
+				$( '#spinner' ).addClass( 'hidden' );
 
 				this.baseUrl = 'project/' + App.currentProject + '/sprint/' + App.currentSprint + '/slide/';
 

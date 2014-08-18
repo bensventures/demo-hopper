@@ -19,7 +19,7 @@ define( [
 			{
 				var modelJSON = this.model.toJSON();
 
-				modelJSON.description = Marked( modelJSON.description );
+				modelJSON.description = modelJSON.description ? Marked( modelJSON.description ) : '';
 
 				this.el.innerHTML = _.template( this.template, modelJSON );
 				this.el.classList.remove( 'hidden' );
